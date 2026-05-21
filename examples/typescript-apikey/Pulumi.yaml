@@ -1,0 +1,3 @@
+name: resend-apikey-example
+runtime: nodejs
+description: Create a Resend API key with the Pulumi Resend provider.

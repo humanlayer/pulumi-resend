@@ -1,0 +1,107 @@
+{
+  "name": "resend",
+  "displayName": "Resend",
+  "namespace": "resend",
+  "language": {
+    "csharp": {
+      "respectSchemaVersion": true
+    },
+    "go": {
+      "generateResourceContainerTypes": true,
+      "importBasePath": "github.com/kylemistele/pulumi-resend/sdk/go/resend",
+      "respectSchemaVersion": true
+    },
+    "nodejs": {
+      "packageName": "@pulumi/resend",
+      "respectSchemaVersion": true
+    },
+    "python": {
+      "pyproject": {
+        "enabled": true
+      },
+      "respectSchemaVersion": true
+    }
+  },
+  "config": {
+    "variables": {
+      "apiKey": {
+        "type": "string",
+        "description": "Resend API key. Falls back to RESEND_API_KEY when unset.",
+        "secret": true
+      }
+    }
+  },
+  "provider": {
+    "description": "The Resend provider configuration.",
+    "properties": {
+      "apiKey": {
+        "type": "string",
+        "description": "Resend API key. Falls back to RESEND_API_KEY when unset.",
+        "secret": true
+      }
+    },
+    "inputProperties": {
+      "apiKey": {
+        "type": "string",
+        "description": "Resend API key. Falls back to RESEND_API_KEY when unset.",
+        "secret": true
+      }
+    }
+  },
+  "resources": {
+    "resend:index:ApiKey": {
+      "description": "A Resend API key. API key changes are replaced because Resend does not support updates.",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the API key was created."
+        },
+        "domainId": {
+          "type": "string",
+          "description": "Optional domain ID that restricts this API key to a single domain."
+        },
+        "lastUsedAt": {
+          "type": "string",
+          "description": "Timestamp when the API key was last used, if any."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name for the API key."
+        },
+        "permission": {
+          "type": "string",
+          "description": "API key permission: full_access or sending_access.",
+          "default": "full_access"
+        },
+        "token": {
+          "type": "string",
+          "description": "Secret API key token returned only when the key is created.",
+          "secret": true
+        }
+      },
+      "required": [
+        "name",
+        "token",
+        "createdAt"
+      ],
+      "inputProperties": {
+        "domainId": {
+          "type": "string",
+          "description": "Optional domain ID that restricts this API key to a single domain."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name for the API key."
+        },
+        "permission": {
+          "type": "string",
+          "description": "API key permission: full_access or sending_access.",
+          "default": "full_access"
+        }
+      },
+      "requiredInputs": [
+        "name"
+      ]
+    }
+  }
+}
