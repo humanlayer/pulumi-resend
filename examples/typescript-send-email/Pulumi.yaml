@@ -1,0 +1,3 @@
+name: resend-send-email-example
+runtime: nodejs
+description: Send an email using the Pulumi Resend provider sendEmail function.

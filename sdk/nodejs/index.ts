@@ -25,6 +25,11 @@ export type Provider = import("./provider").Provider;
 export const Provider: typeof import("./provider").Provider = null as any;
 utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
+export { SendEmailArgs, SendEmailResult, SendEmailOutputArgs } from "./sendEmail";
+export const sendEmail: typeof import("./sendEmail").sendEmail = null as any;
+export const sendEmailOutput: typeof import("./sendEmail").sendEmailOutput = null as any;
+utilities.lazyLoad(exports, ["sendEmail","sendEmailOutput"], () => require("./sendEmail"));
+
 export { TemplateArgs } from "./template";
 export type Template = import("./template").Template;
 export const Template: typeof import("./template").Template = null as any;
@@ -38,10 +43,12 @@ utilities.lazyLoad(exports, ["Webhook"], () => require("./webhook"));
 
 // Export sub-modules:
 import * as config from "./config";
+import * as functions from "./functions";
 import * as types from "./types";
 
 export {
     config,
+    functions,
     types,
 };
 

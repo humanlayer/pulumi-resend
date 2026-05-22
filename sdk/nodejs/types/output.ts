@@ -5,6 +5,9 @@ import * as pulumi from "@pulumi/pulumi";
 import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
+export namespace functions {
+}
+
 export namespace resources {
     /**
      * A DNS record required to verify or operate a Resend domain.

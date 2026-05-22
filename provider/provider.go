@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"github.com/kylemistele/pulumi-resend/provider/functions"
 	"github.com/kylemistele/pulumi-resend/provider/resources"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
@@ -46,6 +47,11 @@ func Provider() p.Provider {
 			),
 			infer.Resource[*resources.Webhook, resources.WebhookArgs, resources.WebhookState](
 				resources.NewWebhook(ClientFromContext),
+			),
+		).
+		WithFunctions(
+			infer.Function[*functions.SendEmail, functions.SendEmailArgs, functions.SendEmailResult](
+				functions.NewSendEmail(ClientFromContext),
 			),
 		)
 

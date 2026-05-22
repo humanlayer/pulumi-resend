@@ -5,6 +5,88 @@ import * as pulumi from "@pulumi/pulumi";
 import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
+export namespace functions {
+    /**
+     * An email attachment.
+     */
+    export interface Attachment {
+        /**
+         * Base64-encoded content of the attachment.
+         */
+        content?: string;
+        /**
+         * Content ID for inline attachments (e.g., for embedding images in HTML).
+         */
+        contentId?: string;
+        /**
+         * The MIME type of the attachment.
+         */
+        contentType?: string;
+        /**
+         * The filename of the attachment.
+         */
+        filename: string;
+        /**
+         * URL path to fetch the attachment content from.
+         */
+        path?: string;
+    }
+
+    /**
+     * An email attachment.
+     */
+    export interface AttachmentArgs {
+        /**
+         * Base64-encoded content of the attachment.
+         */
+        content?: pulumi.Input<string>;
+        /**
+         * Content ID for inline attachments (e.g., for embedding images in HTML).
+         */
+        contentId?: pulumi.Input<string>;
+        /**
+         * The MIME type of the attachment.
+         */
+        contentType?: pulumi.Input<string>;
+        /**
+         * The filename of the attachment.
+         */
+        filename: pulumi.Input<string>;
+        /**
+         * URL path to fetch the attachment content from.
+         */
+        path?: pulumi.Input<string>;
+    }
+
+    /**
+     * An email tag for categorization.
+     */
+    export interface Tag {
+        /**
+         * The tag name.
+         */
+        name: string;
+        /**
+         * The tag value.
+         */
+        value: string;
+    }
+
+    /**
+     * An email tag for categorization.
+     */
+    export interface TagArgs {
+        /**
+         * The tag name.
+         */
+        name: pulumi.Input<string>;
+        /**
+         * The tag value.
+         */
+        value: pulumi.Input<string>;
+    }
+}
+
 export namespace resources {
     /**
      * A Resend template variable definition.
