@@ -1,0 +1,3 @@
+name: resend-webhook-example
+runtime: nodejs
+description: Create a Resend webhook endpoint with the Pulumi Resend provider.

@@ -30,6 +30,11 @@ export type Template = import("./template").Template;
 export const Template: typeof import("./template").Template = null as any;
 utilities.lazyLoad(exports, ["Template"], () => require("./template"));
 
+export { WebhookArgs } from "./webhook";
+export type Webhook = import("./webhook").Webhook;
+export const Webhook: typeof import("./webhook").Webhook = null as any;
+utilities.lazyLoad(exports, ["Webhook"], () => require("./webhook"));
+
 
 // Export sub-modules:
 import * as config from "./config";
@@ -52,6 +57,8 @@ const _module = {
                 return new DomainVerification(name, <any>undefined, { urn })
             case "resend:index:Template":
                 return new Template(name, <any>undefined, { urn })
+            case "resend:index:Webhook":
+                return new Webhook(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }
