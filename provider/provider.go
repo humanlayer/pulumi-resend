@@ -42,6 +42,9 @@ func Provider() p.Provider {
 			infer.Resource[*resources.DomainVerification, resources.DomainVerificationArgs, resources.DomainVerificationState](
 				resources.NewDomainVerification(ClientFromContext),
 			),
+			infer.Resource[*resources.Event, resources.EventArgs, resources.EventState](
+				resources.NewEvent(ClientFromContext),
+			),
 			infer.Resource[*resources.Template, resources.TemplateArgs, resources.TemplateState](
 				resources.NewTemplate(ClientFromContext),
 			),

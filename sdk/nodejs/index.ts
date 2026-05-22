@@ -20,6 +20,11 @@ export type DomainVerification = import("./domainVerification").DomainVerificati
 export const DomainVerification: typeof import("./domainVerification").DomainVerification = null as any;
 utilities.lazyLoad(exports, ["DomainVerification"], () => require("./domainVerification"));
 
+export { EventArgs } from "./event";
+export type Event = import("./event").Event;
+export const Event: typeof import("./event").Event = null as any;
+utilities.lazyLoad(exports, ["Event"], () => require("./event"));
+
 export { ProviderArgs } from "./provider";
 export type Provider = import("./provider").Provider;
 export const Provider: typeof import("./provider").Provider = null as any;
@@ -67,6 +72,8 @@ const _module = {
                 return new Domain(name, <any>undefined, { urn })
             case "resend:index:DomainVerification":
                 return new DomainVerification(name, <any>undefined, { urn })
+            case "resend:index:Event":
+                return new Event(name, <any>undefined, { urn })
             case "resend:index:Template":
                 return new Template(name, <any>undefined, { urn })
             case "resend:index:Topic":

@@ -24,6 +24,7 @@
         "config/vars.ts",
         "domain.ts",
         "domainVerification.ts",
+        "event.ts",
         "functions/index.ts",
         "index.ts",
         "provider.ts",

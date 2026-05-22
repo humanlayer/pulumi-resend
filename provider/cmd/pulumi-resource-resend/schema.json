@@ -343,6 +343,51 @@
         "domainId"
       ]
     },
+    "resend:index:Event": {
+      "description": "A Resend event for defining custom event types that trigger automations. Events allow you to send behavioral data about contacts to trigger automated email sequences.",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the event was created."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the event. Must not start with 'resend:' (reserved prefix). This field is immutable after creation."
+        },
+        "schema": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Optional schema defining the event payload structure. Maps field names to types: string, number, boolean, or date."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the event was last updated."
+        }
+      },
+      "required": [
+        "name",
+        "createdAt",
+        "updatedAt"
+      ],
+      "inputProperties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the event. Must not start with 'resend:' (reserved prefix). This field is immutable after creation."
+        },
+        "schema": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Optional schema defining the event payload structure. Maps field names to types: string, number, boolean, or date."
+        }
+      },
+      "requiredInputs": [
+        "name"
+      ]
+    },
     "resend:index:Template": {
       "description": "A Resend email template with HTML, optional defaults, and template variables.",
       "properties": {
