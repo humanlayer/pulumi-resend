@@ -35,6 +35,11 @@ export type Template = import("./template").Template;
 export const Template: typeof import("./template").Template = null as any;
 utilities.lazyLoad(exports, ["Template"], () => require("./template"));
 
+export { TopicArgs } from "./topic";
+export type Topic = import("./topic").Topic;
+export const Topic: typeof import("./topic").Topic = null as any;
+utilities.lazyLoad(exports, ["Topic"], () => require("./topic"));
+
 export { WebhookArgs } from "./webhook";
 export type Webhook = import("./webhook").Webhook;
 export const Webhook: typeof import("./webhook").Webhook = null as any;
@@ -64,6 +69,8 @@ const _module = {
                 return new DomainVerification(name, <any>undefined, { urn })
             case "resend:index:Template":
                 return new Template(name, <any>undefined, { urn })
+            case "resend:index:Topic":
+                return new Topic(name, <any>undefined, { urn })
             case "resend:index:Webhook":
                 return new Webhook(name, <any>undefined, { urn })
             default:

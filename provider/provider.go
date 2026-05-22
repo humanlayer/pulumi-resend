@@ -45,6 +45,9 @@ func Provider() p.Provider {
 			infer.Resource[*resources.Template, resources.TemplateArgs, resources.TemplateState](
 				resources.NewTemplate(ClientFromContext),
 			),
+			infer.Resource[*resources.Topic, resources.TopicArgs, resources.TopicState](
+				resources.NewTopic(ClientFromContext),
+			),
 			infer.Resource[*resources.Webhook, resources.WebhookArgs, resources.WebhookState](
 				resources.NewWebhook(ClientFromContext),
 			),

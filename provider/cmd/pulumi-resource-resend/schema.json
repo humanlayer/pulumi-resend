@@ -444,6 +444,58 @@
         "html"
       ]
     },
+    "resend:index:Topic": {
+      "description": "A Resend topic for managing subscription preferences. Topics allow contacts to control which types of emails they receive.",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the topic was created."
+        },
+        "defaultSubscription": {
+          "type": "string",
+          "description": "The default subscription behavior for new contacts: opt_in (contacts must opt in) or opt_out (contacts are subscribed by default)."
+        },
+        "description": {
+          "type": "string",
+          "description": "An optional description of the topic. Maximum 200 characters."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the topic. Maximum 50 characters."
+        },
+        "visibility": {
+          "type": "string",
+          "description": "Topic visibility: public (visible in preference center) or private (hidden from preference center)."
+        }
+      },
+      "required": [
+        "name",
+        "defaultSubscription",
+        "createdAt"
+      ],
+      "inputProperties": {
+        "defaultSubscription": {
+          "type": "string",
+          "description": "The default subscription behavior for new contacts: opt_in (contacts must opt in) or opt_out (contacts are subscribed by default)."
+        },
+        "description": {
+          "type": "string",
+          "description": "An optional description of the topic. Maximum 200 characters."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the topic. Maximum 50 characters."
+        },
+        "visibility": {
+          "type": "string",
+          "description": "Topic visibility: public (visible in preference center) or private (hidden from preference center)."
+        }
+      },
+      "requiredInputs": [
+        "name",
+        "defaultSubscription"
+      ]
+    },
     "resend:index:Webhook": {
       "description": "A Resend webhook endpoint that receives event notifications.",
       "properties": {
