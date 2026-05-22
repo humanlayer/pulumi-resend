@@ -1,0 +1,61 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Pulumi CLI
+        uses: pulumi/actions@v5
+
+      - name: Tidy Go modules
+        run: go mod tidy
+
+      - name: Build provider
+        run: make provider
+
+      - name: Generate schema
+        run: make schema
+
+      - name: Run Go tests
+        run: go test ./...
+
+      - name: Generate TypeScript SDK
+        run: make codegen
+
+      - name: Build TypeScript SDK
+        run: cd sdk/nodejs && npm install && npm run build
+        env:
+          CI: true
+
+      - name: Verify SDK contents
+        run: |
+          echo "Contents of sdk/nodejs/bin/:"
+          ls -la sdk/nodejs/bin/
+          if [ ! -f sdk/nodejs/bin/index.js ]; then
+            echo "ERROR: bin/index.js not found"
+            exit 1
+          fi
+          if [ ! -f sdk/nodejs/bin/index.d.ts ]; then
+            echo "ERROR: bin/index.d.ts not found"
+            exit 1
+          fi

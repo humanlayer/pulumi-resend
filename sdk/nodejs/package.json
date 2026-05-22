@@ -1,8 +1,24 @@
 {
-    "name": "@pulumi/resend",
+    "name": "@humanlayer/pulumi-resend",
     "version": "0.1.0-dev",
+    "description": "A Pulumi provider for managing Resend email resources",
+    "keywords": [
+        "pulumi",
+        "resend",
+        "email",
+        "infrastructure-as-code"
+    ],
+    "homepage": "https://github.com/humanlayer/pulumi-resend",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/humanlayer/pulumi-resend.git"
+    },
+    "license": "MIT",
     "scripts": {
         "build": "tsc"
+    },
+    "publishConfig": {
+        "access": "public"
     },
     "dependencies": {
         "@pulumi/pulumi": "^3.142.0"
@@ -14,6 +30,6 @@
     "pulumi": {
         "resource": true,
         "name": "resend",
-        "version": "0.1.0-dev"
+        "server": "github://api.github.com/humanlayer/pulumi-resend"
     }
 }

@@ -1,0 +1,140 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write  # Required for npm trusted publishing (OIDC)
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install Pulumi CLI
+        uses: pulumi/actions@v5
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+
+      - name: Save committed SDK metadata
+        id: sdk
+        run: |
+          echo "VERSION=$(jq -r .version sdk/nodejs/package.json)" >> "$GITHUB_OUTPUT"
+          cp sdk/nodejs/package.json /tmp/package.json.bak
+
+      - name: Verify tag matches SDK version
+        run: |
+          if [ "${{ steps.version.outputs.VERSION }}" != "${{ steps.sdk.outputs.VERSION }}" ]; then
+            echo "Tag version does not match sdk/nodejs/package.json"
+            echo "tag=${{ steps.version.outputs.VERSION }}"
+            echo "sdk=${{ steps.sdk.outputs.VERSION }}"
+            exit 1
+          fi
+
+      - name: Build and package provider (all platforms)
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          mkdir -p dist
+
+          # Pulumi expects: pulumi-resource-{name}-v{version}-{os}-{arch}.tar.gz
+          # Inside the tarball: pulumi-resource-{name}
+
+          for PLATFORM in "linux amd64" "linux arm64" "darwin amd64" "darwin arm64"; do
+            # shellcheck disable=SC2086
+            set -- $PLATFORM
+            OS=$1
+            ARCH=$2
+
+            echo "Building for $OS/$ARCH..."
+            GOOS=$OS GOARCH=$ARCH go build \
+              -ldflags "-X github.com/kylemistele/pulumi-resend/provider.Version=$VERSION" \
+              -o dist/pulumi-resource-resend \
+              ./provider/cmd/pulumi-resource-resend
+
+            # Create tarball with expected naming
+            tar -czvf "dist/pulumi-resource-resend-v${VERSION}-${OS}-${ARCH}.tar.gz" \
+              -C dist pulumi-resource-resend
+
+            rm dist/pulumi-resource-resend
+          done
+
+          ls -la dist/
+
+      - name: Generate schema
+        run: |
+          make provider
+          make schema
+
+      - name: Generate TypeScript SDK
+        run: make codegen
+
+      - name: Restore package.json metadata
+        run: |
+          cd sdk/nodejs
+          PULUMI_BLOCK=$(jq '.pulumi' package.json)
+          cp /tmp/package.json.bak package.json
+          jq --argjson pulumi "$PULUMI_BLOCK" '.pulumi = $pulumi' package.json > package.json.tmp
+          mv package.json.tmp package.json
+
+      - name: Build TypeScript SDK
+        run: cd sdk/nodejs && npm install && npm run build
+
+      - name: Verify SDK contents
+        run: |
+          echo "Contents of sdk/nodejs/bin/:"
+          ls -la sdk/nodejs/bin/
+          if [ ! -f sdk/nodejs/bin/index.js ]; then
+            echo "ERROR: bin/index.js not found"
+            exit 1
+          fi
+          if [ ! -f sdk/nodejs/bin/index.d.ts ]; then
+            echo "ERROR: bin/index.d.ts not found"
+            exit 1
+          fi
+
+      - name: Copy metadata to bin for publishing
+        run: |
+          cd sdk/nodejs
+          cp package.json README.md ./bin/ 2>/dev/null || cp package.json ./bin/
+          if [ -f ../../LICENSE ]; then
+            cp ../../LICENSE ./bin/
+          fi
+          echo "Contents of sdk/nodejs/bin/ after copy:"
+          ls -la ./bin/
+
+      - name: Verify provider archive contents
+        run: |
+          for archive in dist/*.tar.gz; do
+            tar -tzf "$archive" | grep -qx 'pulumi-resource-resend'
+          done
+
+      - name: Package SDK
+        run: cd sdk/nodejs/bin && npm pack
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.tar.gz
+            sdk/nodejs/bin/*.tgz
+          generate_release_notes: true
+
+      - name: Publish to npm
+        if: github.repository == 'humanlayer/pulumi-resend'
+        run: cd sdk/nodejs/bin && npm publish --access public
