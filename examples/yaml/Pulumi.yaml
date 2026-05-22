@@ -1,0 +1,41 @@
+name: resend-yaml-example
+runtime: yaml
+description: A minimal YAML example for testing the Resend provider
+
+resources:
+  # Create a Domain resource for email sending
+  exampleDomain:
+    type: resend:index:Domain
+    properties:
+      name: test.example.com
+      region: us-east-1
+      openTracking: true
+      clickTracking: false
+
+  # Create an API key for sending emails
+  sendingKey:
+    type: resend:index:ApiKey
+    properties:
+      name: yaml-example-key
+      permission: sending_access
+
+  # Create an email template
+  welcomeTemplate:
+    type: resend:index:Template
+    properties:
+      name: welcome-email
+      html: |
+        <html>
+          <body>
+            <h1>Welcome!</h1>
+            <p>Thank you for signing up.</p>
+          </body>
+        </html>
+      subject: Welcome to our service
+
+outputs:
+  # Export resource IDs
+  domainId: ${exampleDomain.id}
+  domainStatus: ${exampleDomain.status}
+  apiKeyId: ${sendingKey.id}
+  templateId: ${welcomeTemplate.id}
