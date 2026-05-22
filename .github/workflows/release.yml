@@ -137,4 +137,4 @@ jobs:
 
       - name: Publish to npm
         if: github.repository == 'humanlayer/pulumi-resend'
-        run: cd sdk/nodejs/bin && npm publish --access public
+        run: cd sdk/nodejs/bin && npm publish --access public --tolerate-republish
