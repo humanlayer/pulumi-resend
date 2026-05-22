@@ -31,6 +31,50 @@
       }
     }
   },
+  "types": {
+    "resend:resources:DnsRecord": {
+      "description": "A DNS record required to verify or operate a Resend domain.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The DNS record name."
+        },
+        "priority": {
+          "type": "integer",
+          "description": "The MX priority for records that require one."
+        },
+        "record": {
+          "type": "string",
+          "description": "The Resend record purpose, such as SPF, DKIM, Receiving, Tracking, or TrackingCAA."
+        },
+        "status": {
+          "type": "string",
+          "description": "The verification status of the DNS record."
+        },
+        "ttl": {
+          "type": "string",
+          "description": "The DNS record time-to-live value."
+        },
+        "type": {
+          "type": "string",
+          "description": "The DNS record type, such as TXT, MX, CNAME, or CAA."
+        },
+        "value": {
+          "type": "string",
+          "description": "The DNS record value."
+        }
+      },
+      "type": "object",
+      "required": [
+        "record",
+        "name",
+        "type",
+        "ttl",
+        "status",
+        "value"
+      ]
+    }
+  },
   "provider": {
     "description": "The Resend provider configuration.",
     "properties": {
@@ -101,6 +145,133 @@
       },
       "requiredInputs": [
         "name"
+      ]
+    },
+    "resend:index:Domain": {
+      "description": "A Resend sending domain with DNS records for verification and routing.",
+      "properties": {
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Enabled domain capabilities. Supported values are sending and receiving."
+        },
+        "clickTracking": {
+          "type": "boolean",
+          "description": "Whether Resend should track link clicks for this domain."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the domain was created in Resend."
+        },
+        "customReturnPath": {
+          "type": "string",
+          "description": "Optional custom return-path subdomain for bounce handling."
+        },
+        "name": {
+          "type": "string",
+          "description": "The domain name to manage in Resend."
+        },
+        "openTracking": {
+          "type": "boolean",
+          "description": "Whether Resend should track email opens for this domain."
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/types/resend:resources:DnsRecord"
+          },
+          "description": "DNS records Resend requires for domain verification and operation."
+        },
+        "region": {
+          "type": "string",
+          "description": "The Resend sending region for the domain, such as us-east-1, eu-west-1, sa-east-1, or ap-northeast-1."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current Resend verification status for the domain."
+        },
+        "tls": {
+          "type": "string",
+          "description": "TLS mode for email delivery: opportunistic or enforced."
+        },
+        "trackingSubdomain": {
+          "type": "string",
+          "description": "Optional subdomain to use for click and open tracking."
+        }
+      },
+      "required": [
+        "name",
+        "status",
+        "records",
+        "createdAt"
+      ],
+      "inputProperties": {
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Enabled domain capabilities. Supported values are sending and receiving."
+        },
+        "clickTracking": {
+          "type": "boolean",
+          "description": "Whether Resend should track link clicks for this domain."
+        },
+        "customReturnPath": {
+          "type": "string",
+          "description": "Optional custom return-path subdomain for bounce handling."
+        },
+        "name": {
+          "type": "string",
+          "description": "The domain name to manage in Resend."
+        },
+        "openTracking": {
+          "type": "boolean",
+          "description": "Whether Resend should track email opens for this domain."
+        },
+        "region": {
+          "type": "string",
+          "description": "The Resend sending region for the domain, such as us-east-1, eu-west-1, sa-east-1, or ap-northeast-1."
+        },
+        "tls": {
+          "type": "string",
+          "description": "TLS mode for email delivery: opportunistic or enforced."
+        },
+        "trackingSubdomain": {
+          "type": "string",
+          "description": "Optional subdomain to use for click and open tracking."
+        }
+      },
+      "requiredInputs": [
+        "name"
+      ]
+    },
+    "resend:index:DomainVerification": {
+      "description": "A Resend domain verification trigger that waits for DNS verification to complete.",
+      "properties": {
+        "domainId": {
+          "type": "string",
+          "description": "The Resend domain ID to verify."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current Resend verification status for the domain."
+        }
+      },
+      "required": [
+        "domainId",
+        "status"
+      ],
+      "inputProperties": {
+        "domainId": {
+          "type": "string",
+          "description": "The Resend domain ID to verify."
+        }
+      },
+      "requiredInputs": [
+        "domainId"
       ]
     }
   }

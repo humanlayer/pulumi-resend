@@ -31,9 +31,17 @@ func Provider() p.Provider {
 			},
 		}).
 		WithConfig(infer.Config(&Config{})).
-		WithResources(infer.Resource[*resources.ApiKey, resources.ApiKeyArgs, resources.ApiKeyState](
-			resources.NewApiKey(ClientFromContext),
-		))
+		WithResources(
+			infer.Resource[*resources.ApiKey, resources.ApiKeyArgs, resources.ApiKeyState](
+				resources.NewApiKey(ClientFromContext),
+			),
+			infer.Resource[*resources.Domain, resources.DomainArgs, resources.DomainState](
+				resources.NewDomain(ClientFromContext),
+			),
+			infer.Resource[*resources.DomainVerification, resources.DomainVerificationArgs, resources.DomainVerificationState](
+				resources.NewDomainVerification(ClientFromContext),
+			),
+		)
 
 	return infer.Provider(builder.BuildOptions())
 }

@@ -1,0 +1,3 @@
+name: resend-domain-example
+runtime: nodejs
+description: Create a Resend domain with the Pulumi Resend provider.

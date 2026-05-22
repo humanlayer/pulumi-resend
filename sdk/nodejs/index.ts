@@ -10,6 +10,16 @@ export type ApiKey = import("./apiKey").ApiKey;
 export const ApiKey: typeof import("./apiKey").ApiKey = null as any;
 utilities.lazyLoad(exports, ["ApiKey"], () => require("./apiKey"));
 
+export { DomainArgs } from "./domain";
+export type Domain = import("./domain").Domain;
+export const Domain: typeof import("./domain").Domain = null as any;
+utilities.lazyLoad(exports, ["Domain"], () => require("./domain"));
+
+export { DomainVerificationArgs } from "./domainVerification";
+export type DomainVerification = import("./domainVerification").DomainVerification;
+export const DomainVerification: typeof import("./domainVerification").DomainVerification = null as any;
+utilities.lazyLoad(exports, ["DomainVerification"], () => require("./domainVerification"));
+
 export { ProviderArgs } from "./provider";
 export type Provider = import("./provider").Provider;
 export const Provider: typeof import("./provider").Provider = null as any;
@@ -18,9 +28,11 @@ utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
 // Export sub-modules:
 import * as config from "./config";
+import * as types from "./types";
 
 export {
     config,
+    types,
 };
 
 const _module = {
@@ -29,6 +41,10 @@ const _module = {
         switch (type) {
             case "resend:index:ApiKey":
                 return new ApiKey(name, <any>undefined, { urn })
+            case "resend:index:Domain":
+                return new Domain(name, <any>undefined, { urn })
+            case "resend:index:DomainVerification":
+                return new DomainVerification(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }
