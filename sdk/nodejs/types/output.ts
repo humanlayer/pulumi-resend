@@ -40,4 +40,22 @@ export namespace resources {
         value: string;
     }
 
+    /**
+     * A Resend template variable definition.
+     */
+    export interface TemplateVariable {
+        /**
+         * Optional fallback value used when no value is supplied.
+         */
+        fallbackValue?: string;
+        /**
+         * The template variable key.
+         */
+        key: string;
+        /**
+         * The template variable type, such as string, number, boolean, object, or list.
+         */
+        type: string;
+    }
+
 }

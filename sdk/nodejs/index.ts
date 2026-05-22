@@ -25,6 +25,11 @@ export type Provider = import("./provider").Provider;
 export const Provider: typeof import("./provider").Provider = null as any;
 utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
+export { TemplateArgs } from "./template";
+export type Template = import("./template").Template;
+export const Template: typeof import("./template").Template = null as any;
+utilities.lazyLoad(exports, ["Template"], () => require("./template"));
+
 
 // Export sub-modules:
 import * as config from "./config";
@@ -45,6 +50,8 @@ const _module = {
                 return new Domain(name, <any>undefined, { urn })
             case "resend:index:DomainVerification":
                 return new DomainVerification(name, <any>undefined, { urn })
+            case "resend:index:Template":
+                return new Template(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }

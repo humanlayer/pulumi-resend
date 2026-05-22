@@ -1,0 +1,3 @@
+name: resend-template-example
+runtime: nodejs
+description: Create a Resend email template with the Pulumi Resend provider.

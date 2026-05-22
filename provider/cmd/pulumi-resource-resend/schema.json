@@ -73,6 +73,28 @@
         "status",
         "value"
       ]
+    },
+    "resend:resources:TemplateVariable": {
+      "description": "A Resend template variable definition.",
+      "properties": {
+        "fallbackValue": {
+          "type": "string",
+          "description": "Optional fallback value used when no value is supplied."
+        },
+        "key": {
+          "type": "string",
+          "description": "The template variable key."
+        },
+        "type": {
+          "type": "string",
+          "description": "The template variable type, such as string, number, boolean, object, or list."
+        }
+      },
+      "type": "object",
+      "required": [
+        "key",
+        "type"
+      ]
     }
   },
   "provider": {
@@ -272,6 +294,107 @@
       },
       "requiredInputs": [
         "domainId"
+      ]
+    },
+    "resend:index:Template": {
+      "description": "A Resend email template with HTML, optional defaults, and template variables.",
+      "properties": {
+        "alias": {
+          "type": "string",
+          "description": "Optional template alias."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the template was created."
+        },
+        "from": {
+          "type": "string",
+          "description": "Optional default sender for emails sent with the template."
+        },
+        "html": {
+          "type": "string",
+          "description": "The HTML body for the template."
+        },
+        "name": {
+          "type": "string",
+          "description": "The template name."
+        },
+        "replyTo": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional default reply-to addresses for emails sent with the template."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Optional default subject for emails sent with the template."
+        },
+        "text": {
+          "type": "string",
+          "description": "Optional plain text body for the template."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the template was last updated."
+        },
+        "variables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/types/resend:resources:TemplateVariable"
+          },
+          "description": "Optional template variable definitions."
+        }
+      },
+      "required": [
+        "name",
+        "html",
+        "createdAt",
+        "updatedAt"
+      ],
+      "inputProperties": {
+        "alias": {
+          "type": "string",
+          "description": "Optional template alias."
+        },
+        "from": {
+          "type": "string",
+          "description": "Optional default sender for emails sent with the template."
+        },
+        "html": {
+          "type": "string",
+          "description": "The HTML body for the template."
+        },
+        "name": {
+          "type": "string",
+          "description": "The template name."
+        },
+        "replyTo": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional default reply-to addresses for emails sent with the template."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Optional default subject for emails sent with the template."
+        },
+        "text": {
+          "type": "string",
+          "description": "Optional plain text body for the template."
+        },
+        "variables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/types/resend:resources:TemplateVariable"
+          },
+          "description": "Optional template variable definitions."
+        }
+      },
+      "requiredInputs": [
+        "name",
+        "html"
       ]
     }
   }

@@ -41,6 +41,9 @@ func Provider() p.Provider {
 			infer.Resource[*resources.DomainVerification, resources.DomainVerificationArgs, resources.DomainVerificationState](
 				resources.NewDomainVerification(ClientFromContext),
 			),
+			infer.Resource[*resources.Template, resources.TemplateArgs, resources.TemplateState](
+				resources.NewTemplate(ClientFromContext),
+			),
 		)
 
 	return infer.Provider(builder.BuildOptions())

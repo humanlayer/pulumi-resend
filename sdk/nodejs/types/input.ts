@@ -6,4 +6,21 @@ import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
 export namespace resources {
+    /**
+     * A Resend template variable definition.
+     */
+    export interface TemplateVariableArgs {
+        /**
+         * Optional fallback value used when no value is supplied.
+         */
+        fallbackValue?: pulumi.Input<string>;
+        /**
+         * The template variable key.
+         */
+        key: pulumi.Input<string>;
+        /**
+         * The template variable type, such as string, number, boolean, object, or list.
+         */
+        type: pulumi.Input<string>;
+    }
 }
