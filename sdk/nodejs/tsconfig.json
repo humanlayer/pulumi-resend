@@ -32,6 +32,7 @@
         "provider.ts",
         "segment.ts",
         "sendBatchEmail.ts",
+        "sendBroadcast.ts",
         "sendEmail.ts",
         "sendEvent.ts",
         "template.ts",

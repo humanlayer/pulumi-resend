@@ -74,6 +74,9 @@ func Provider() p.Provider {
 			infer.Function[*functions.SendEvent, functions.SendEventArgs, functions.SendEventResult](
 				functions.NewSendEvent(ClientFromContext),
 			),
+			infer.Function[*functions.SendBroadcast, functions.SendBroadcastArgs, functions.SendBroadcastResult](
+				functions.NewSendBroadcast(ClientFromContext),
+			),
 		)
 
 	return infer.Provider(builder.BuildOptions())

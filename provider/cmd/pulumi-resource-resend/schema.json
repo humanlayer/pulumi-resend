@@ -920,6 +920,79 @@
         "type": "object"
       }
     },
+    "resend:index:sendBroadcast": {
+      "description": "Create and send a broadcast email to a segment via the Resend API. This combines broadcast creation and sending into a single atomic operation using the send: true flag.",
+      "inputs": {
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "The sender email address. Must be a verified domain."
+          },
+          "html": {
+            "type": "string",
+            "description": "The HTML body of the broadcast email."
+          },
+          "name": {
+            "type": "string",
+            "description": "An optional name for the broadcast (for internal reference)."
+          },
+          "previewText": {
+            "type": "string",
+            "description": "Preview text shown in email clients before opening the email."
+          },
+          "replyTo": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of reply-to email addresses."
+          },
+          "scheduledAt": {
+            "type": "string",
+            "description": "ISO 8601 timestamp to schedule the broadcast for future delivery. Omit for immediate send."
+          },
+          "segmentId": {
+            "type": "string",
+            "description": "The ID of the segment to send the broadcast to."
+          },
+          "subject": {
+            "type": "string",
+            "description": "The email subject line for the broadcast."
+          },
+          "text": {
+            "type": "string",
+            "description": "The plain text body of the broadcast email."
+          },
+          "topicId": {
+            "type": "string",
+            "description": "Topic ID for managing unsubscribes."
+          }
+        },
+        "type": "object",
+        "required": [
+          "from",
+          "subject",
+          "segmentId"
+        ]
+      },
+      "outputs": {
+        "properties": {
+          "broadcastId": {
+            "description": "The unique identifier for the broadcast.",
+            "type": "string"
+          },
+          "status": {
+            "description": "The status of the broadcast (e.g., 'queued' or 'sent').",
+            "type": "string"
+          }
+        },
+        "required": [
+          "broadcastId",
+          "status"
+        ],
+        "type": "object"
+      }
+    },
     "resend:index:sendEmail": {
       "description": "Send an email using the Resend API. This is a stateless function that sends an email and returns the message ID.",
       "inputs": {

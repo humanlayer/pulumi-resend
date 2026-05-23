@@ -50,6 +50,11 @@ export const sendBatchEmail: typeof import("./sendBatchEmail").sendBatchEmail = 
 export const sendBatchEmailOutput: typeof import("./sendBatchEmail").sendBatchEmailOutput = null as any;
 utilities.lazyLoad(exports, ["sendBatchEmail","sendBatchEmailOutput"], () => require("./sendBatchEmail"));
 
+export { SendBroadcastArgs, SendBroadcastResult, SendBroadcastOutputArgs } from "./sendBroadcast";
+export const sendBroadcast: typeof import("./sendBroadcast").sendBroadcast = null as any;
+export const sendBroadcastOutput: typeof import("./sendBroadcast").sendBroadcastOutput = null as any;
+utilities.lazyLoad(exports, ["sendBroadcast","sendBroadcastOutput"], () => require("./sendBroadcast"));
+
 export { SendEmailArgs, SendEmailResult, SendEmailOutputArgs } from "./sendEmail";
 export const sendEmail: typeof import("./sendEmail").sendEmail = null as any;
 export const sendEmailOutput: typeof import("./sendEmail").sendEmailOutput = null as any;

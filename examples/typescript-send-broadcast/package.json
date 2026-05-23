@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "build": "tsc",
+    "start": "pulumi up"
+  },
+  "dependencies": {
+    "@pulumi/pulumi": "^3.0.0",
+    "@pulumi/resend": "file:../../sdk/nodejs"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "typescript": "^5.0.0"
+  }
+}
