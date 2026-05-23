@@ -216,6 +216,50 @@
         "name"
       ]
     },
+    "resend:index:ContactProperty": {
+      "description": "A Resend contact property for defining custom fields on contacts. Contact properties allow you to store additional data about your contacts.",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the contact property was created."
+        },
+        "fallbackValue": {
+          "type": "string",
+          "description": "Optional fallback value used when the property is not set on a contact."
+        },
+        "key": {
+          "type": "string",
+          "description": "The key of the contact property. Must be alphanumeric with underscores only, maximum 50 characters. This field is immutable after creation."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the contact property: string or number. This field is immutable after creation."
+        }
+      },
+      "required": [
+        "key",
+        "type",
+        "createdAt"
+      ],
+      "inputProperties": {
+        "fallbackValue": {
+          "type": "string",
+          "description": "Optional fallback value used when the property is not set on a contact."
+        },
+        "key": {
+          "type": "string",
+          "description": "The key of the contact property. Must be alphanumeric with underscores only, maximum 50 characters. This field is immutable after creation."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the contact property: string or number. This field is immutable after creation."
+        }
+      },
+      "requiredInputs": [
+        "key",
+        "type"
+      ]
+    },
     "resend:index:Domain": {
       "description": "A Resend sending domain with DNS records for verification and routing.",
       "properties": {

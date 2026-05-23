@@ -1,0 +1,3 @@
+name: resend-contact-property-example
+runtime: nodejs
+description: Create Resend contact properties with the Pulumi Resend provider.

@@ -22,6 +22,7 @@
         "apiKey.ts",
         "config/index.ts",
         "config/vars.ts",
+        "contactProperty.ts",
         "domain.ts",
         "domainVerification.ts",
         "event.ts",
