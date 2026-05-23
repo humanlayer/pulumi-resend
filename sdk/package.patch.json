@@ -1,0 +1,14 @@
+{
+    "name": "@humanlayer/pulumi-resend",
+    "description": "A Pulumi provider for managing Resend email resources",
+    "keywords": ["pulumi", "resend", "email", "infrastructure-as-code"],
+    "homepage": "https://github.com/humanlayer/pulumi-resend",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/humanlayer/pulumi-resend.git"
+    },
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    }
+}
