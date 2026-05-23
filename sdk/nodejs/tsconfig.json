@@ -33,6 +33,7 @@
         "segment.ts",
         "sendBatchEmail.ts",
         "sendEmail.ts",
+        "sendEvent.ts",
         "template.ts",
         "topic.ts",
         "types/index.ts",

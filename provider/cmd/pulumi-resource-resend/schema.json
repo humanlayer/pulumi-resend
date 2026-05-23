@@ -1021,6 +1021,48 @@
         ],
         "type": "object"
       }
+    },
+    "resend:index:sendEvent": {
+      "description": "Trigger a custom event for a contact via the Resend API. Requires exactly one of contactId or email to identify the contact.",
+      "inputs": {
+        "properties": {
+          "contactId": {
+            "type": "string",
+            "description": "The ID of the contact to trigger the event for. Exactly one of contactId or email must be provided."
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the contact to trigger the event for. Exactly one of contactId or email must be provided."
+          },
+          "event": {
+            "type": "string",
+            "description": "The name of the event to trigger (e.g., 'user.created')."
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "pulumi.json#/Any"
+            },
+            "description": "Optional key-value pairs of event data."
+          }
+        },
+        "type": "object",
+        "required": [
+          "event"
+        ]
+      },
+      "outputs": {
+        "properties": {
+          "event": {
+            "description": "The name of the triggered event.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "event"
+        ],
+        "type": "object"
+      }
     }
   }
 }

@@ -1,0 +1,3 @@
+name: resend-send-event-example
+runtime: nodejs
+description: Trigger a custom event for a contact using the Pulumi Resend provider sendEvent function.

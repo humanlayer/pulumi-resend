@@ -55,6 +55,11 @@ export const sendEmail: typeof import("./sendEmail").sendEmail = null as any;
 export const sendEmailOutput: typeof import("./sendEmail").sendEmailOutput = null as any;
 utilities.lazyLoad(exports, ["sendEmail","sendEmailOutput"], () => require("./sendEmail"));
 
+export { SendEventArgs, SendEventResult, SendEventOutputArgs } from "./sendEvent";
+export const sendEvent: typeof import("./sendEvent").sendEvent = null as any;
+export const sendEventOutput: typeof import("./sendEvent").sendEventOutput = null as any;
+utilities.lazyLoad(exports, ["sendEvent","sendEventOutput"], () => require("./sendEvent"));
+
 export { TemplateArgs } from "./template";
 export type Template = import("./template").Template;
 export const Template: typeof import("./template").Template = null as any;
