@@ -6,6 +6,13 @@ import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
 export namespace functions {
+    export interface BatchEmailResult {
+        /**
+         * The unique identifier for the sent email.
+         */
+        id: string;
+    }
+
 }
 
 export namespace resources {

@@ -58,6 +58,124 @@ export namespace functions {
         path?: pulumi.Input<string>;
     }
 
+    export interface BatchEmailRequest {
+        /**
+         * List of file attachments.
+         */
+        attachments?: inputs.functions.Attachment[];
+        /**
+         * List of BCC recipient email addresses.
+         */
+        bcc?: string[];
+        /**
+         * List of CC recipient email addresses.
+         */
+        cc?: string[];
+        /**
+         * The sender email address. Must be a verified domain.
+         */
+        from: string;
+        /**
+         * Custom email headers as key-value pairs.
+         */
+        headers?: {[key: string]: string};
+        /**
+         * The HTML body of the email.
+         */
+        html?: string;
+        /**
+         * List of reply-to email addresses.
+         */
+        replyTo?: string[];
+        /**
+         * ISO 8601 timestamp to schedule the email for future delivery.
+         */
+        scheduledAt?: string;
+        /**
+         * The email subject line.
+         */
+        subject: string;
+        /**
+         * List of tags for categorizing the email.
+         */
+        tags?: inputs.functions.Tag[];
+        /**
+         * The template ID to use for the email body.
+         */
+        template?: string;
+        /**
+         * The plain text body of the email.
+         */
+        text?: string;
+        /**
+         * List of recipient email addresses (maximum 50).
+         */
+        to: string[];
+        /**
+         * Topic ID for managing unsubscribes.
+         */
+        topicId?: string;
+    }
+
+    export interface BatchEmailRequestArgs {
+        /**
+         * List of file attachments.
+         */
+        attachments?: pulumi.Input<pulumi.Input<inputs.functions.AttachmentArgs>[]>;
+        /**
+         * List of BCC recipient email addresses.
+         */
+        bcc?: pulumi.Input<pulumi.Input<string>[]>;
+        /**
+         * List of CC recipient email addresses.
+         */
+        cc?: pulumi.Input<pulumi.Input<string>[]>;
+        /**
+         * The sender email address. Must be a verified domain.
+         */
+        from: pulumi.Input<string>;
+        /**
+         * Custom email headers as key-value pairs.
+         */
+        headers?: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
+        /**
+         * The HTML body of the email.
+         */
+        html?: pulumi.Input<string>;
+        /**
+         * List of reply-to email addresses.
+         */
+        replyTo?: pulumi.Input<pulumi.Input<string>[]>;
+        /**
+         * ISO 8601 timestamp to schedule the email for future delivery.
+         */
+        scheduledAt?: pulumi.Input<string>;
+        /**
+         * The email subject line.
+         */
+        subject: pulumi.Input<string>;
+        /**
+         * List of tags for categorizing the email.
+         */
+        tags?: pulumi.Input<pulumi.Input<inputs.functions.TagArgs>[]>;
+        /**
+         * The template ID to use for the email body.
+         */
+        template?: pulumi.Input<string>;
+        /**
+         * The plain text body of the email.
+         */
+        text?: pulumi.Input<string>;
+        /**
+         * List of recipient email addresses (maximum 50).
+         */
+        to: pulumi.Input<pulumi.Input<string>[]>;
+        /**
+         * Topic ID for managing unsubscribes.
+         */
+        topicId?: pulumi.Input<string>;
+    }
+
     /**
      * An email tag for categorization.
      */

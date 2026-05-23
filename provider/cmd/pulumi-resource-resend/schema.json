@@ -61,6 +61,105 @@
         "filename"
       ]
     },
+    "resend:functions:BatchEmailRequest": {
+      "properties": {
+        "attachments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/types/resend:functions:Attachment"
+          },
+          "description": "List of file attachments."
+        },
+        "bcc": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of BCC recipient email addresses."
+        },
+        "cc": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of CC recipient email addresses."
+        },
+        "from": {
+          "type": "string",
+          "description": "The sender email address. Must be a verified domain."
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Custom email headers as key-value pairs."
+        },
+        "html": {
+          "type": "string",
+          "description": "The HTML body of the email."
+        },
+        "replyTo": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of reply-to email addresses."
+        },
+        "scheduledAt": {
+          "type": "string",
+          "description": "ISO 8601 timestamp to schedule the email for future delivery."
+        },
+        "subject": {
+          "type": "string",
+          "description": "The email subject line."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/types/resend:functions:Tag"
+          },
+          "description": "List of tags for categorizing the email."
+        },
+        "template": {
+          "type": "string",
+          "description": "The template ID to use for the email body."
+        },
+        "text": {
+          "type": "string",
+          "description": "The plain text body of the email."
+        },
+        "to": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of recipient email addresses (maximum 50)."
+        },
+        "topicId": {
+          "type": "string",
+          "description": "Topic ID for managing unsubscribes."
+        }
+      },
+      "type": "object",
+      "required": [
+        "from",
+        "to",
+        "subject"
+      ]
+    },
+    "resend:functions:BatchEmailResult": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for the sent email."
+        }
+      },
+      "type": "object",
+      "required": [
+        "id"
+      ]
+    },
     "resend:functions:Tag": {
       "description": "An email tag for categorization.",
       "properties": {
@@ -788,6 +887,39 @@
     }
   },
   "functions": {
+    "resend:index:sendBatchEmail": {
+      "description": "Send a batch of up to 100 emails in a single API call using the Resend API. Returns an array of email IDs.",
+      "inputs": {
+        "properties": {
+          "emails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/types/resend:functions:BatchEmailRequest"
+            },
+            "description": "List of emails to send (maximum 100)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "emails"
+        ]
+      },
+      "outputs": {
+        "properties": {
+          "data": {
+            "description": "Array of results, each containing the ID of a sent email.",
+            "items": {
+              "$ref": "#/types/resend:functions:BatchEmailResult"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      }
+    },
     "resend:index:sendEmail": {
       "description": "Send an email using the Resend API. This is a stateless function that sends an email and returns the message ID.",
       "inputs": {

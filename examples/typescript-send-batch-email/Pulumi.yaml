@@ -1,0 +1,3 @@
+name: resend-send-batch-email-example
+runtime: nodejs
+description: Send a batch of emails using the Pulumi Resend provider sendBatchEmail function.

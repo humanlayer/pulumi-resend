@@ -45,6 +45,11 @@ export type Segment = import("./segment").Segment;
 export const Segment: typeof import("./segment").Segment = null as any;
 utilities.lazyLoad(exports, ["Segment"], () => require("./segment"));
 
+export { SendBatchEmailArgs, SendBatchEmailResult, SendBatchEmailOutputArgs } from "./sendBatchEmail";
+export const sendBatchEmail: typeof import("./sendBatchEmail").sendBatchEmail = null as any;
+export const sendBatchEmailOutput: typeof import("./sendBatchEmail").sendBatchEmailOutput = null as any;
+utilities.lazyLoad(exports, ["sendBatchEmail","sendBatchEmailOutput"], () => require("./sendBatchEmail"));
+
 export { SendEmailArgs, SendEmailResult, SendEmailOutputArgs } from "./sendEmail";
 export const sendEmail: typeof import("./sendEmail").sendEmail = null as any;
 export const sendEmailOutput: typeof import("./sendEmail").sendEmailOutput = null as any;

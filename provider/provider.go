@@ -68,6 +68,9 @@ func Provider() p.Provider {
 			infer.Function[*functions.SendEmail, functions.SendEmailArgs, functions.SendEmailResult](
 				functions.NewSendEmail(ClientFromContext),
 			),
+			infer.Function[*functions.SendBatchEmail, functions.SendBatchEmailArgs, functions.SendBatchEmailResult](
+				functions.NewSendBatchEmail(ClientFromContext),
+			),
 		)
 
 	return infer.Provider(builder.BuildOptions())

@@ -31,6 +31,7 @@
         "index.ts",
         "provider.ts",
         "segment.ts",
+        "sendBatchEmail.ts",
         "sendEmail.ts",
         "template.ts",
         "topic.ts",
