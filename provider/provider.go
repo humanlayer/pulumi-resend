@@ -36,6 +36,9 @@ func Provider() p.Provider {
 			infer.Resource[*resources.ApiKey, resources.ApiKeyArgs, resources.ApiKeyState](
 				resources.NewApiKey(ClientFromContext),
 			),
+			infer.Resource[*resources.Automation, resources.AutomationArgs, resources.AutomationState](
+				resources.NewAutomation(ClientFromContext),
+			),
 			infer.Resource[*resources.ContactProperty, resources.ContactPropertyArgs, resources.ContactPropertyState](
 				resources.NewContactProperty(ClientFromContext),
 			),

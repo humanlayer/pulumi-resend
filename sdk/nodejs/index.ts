@@ -10,6 +10,11 @@ export type ApiKey = import("./apiKey").ApiKey;
 export const ApiKey: typeof import("./apiKey").ApiKey = null as any;
 utilities.lazyLoad(exports, ["ApiKey"], () => require("./apiKey"));
 
+export { AutomationArgs } from "./automation";
+export type Automation = import("./automation").Automation;
+export const Automation: typeof import("./automation").Automation = null as any;
+utilities.lazyLoad(exports, ["Automation"], () => require("./automation"));
+
 export { ContactPropertyArgs } from "./contactProperty";
 export type ContactProperty = import("./contactProperty").ContactProperty;
 export const ContactProperty: typeof import("./contactProperty").ContactProperty = null as any;
@@ -78,6 +83,8 @@ const _module = {
         switch (type) {
             case "resend:index:ApiKey":
                 return new ApiKey(name, <any>undefined, { urn })
+            case "resend:index:Automation":
+                return new Automation(name, <any>undefined, { urn })
             case "resend:index:ContactProperty":
                 return new ContactProperty(name, <any>undefined, { urn })
             case "resend:index:Domain":

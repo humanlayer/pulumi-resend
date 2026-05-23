@@ -79,6 +79,54 @@
         "value"
       ]
     },
+    "resend:resources:AutomationConnection": {
+      "description": "A connection (edge) between steps in a Resend automation workflow.",
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "The key of the source step."
+        },
+        "to": {
+          "type": "string",
+          "description": "The key of the destination step."
+        },
+        "type": {
+          "type": "string",
+          "description": "The connection type: default, condition_met, condition_not_met, timeout, or event_received. Defaults to 'default'."
+        }
+      },
+      "type": "object",
+      "required": [
+        "from",
+        "to"
+      ]
+    },
+    "resend:resources:AutomationStep": {
+      "description": "A step in a Resend automation workflow.",
+      "properties": {
+        "config": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "pulumi.json#/Any"
+          },
+          "description": "Configuration object for the step. Structure depends on the step type."
+        },
+        "key": {
+          "type": "string",
+          "description": "Unique identifier for this step within the automation. Used to reference the step in connections."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of step: trigger, send_email, delay, wait_for_event, condition, contact_update, contact_delete, or add_to_segment."
+        }
+      },
+      "type": "object",
+      "required": [
+        "key",
+        "type",
+        "config"
+      ]
+    },
     "resend:resources:DnsRecord": {
       "description": "A DNS record required to verify or operate a Resend domain.",
       "properties": {
@@ -214,6 +262,77 @@
       },
       "requiredInputs": [
         "name"
+      ]
+    },
+    "resend:index:Automation": {
+      "description": "A Resend automation for email automation workflows. Automations allow you to create multi-step email sequences triggered by events.",
+      "properties": {
+        "connections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/types/resend:resources:AutomationConnection"
+          },
+          "description": "The connections (edges) between steps defining the workflow graph."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the automation was created."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the automation."
+        },
+        "status": {
+          "type": "string",
+          "description": "The automation status: 'enabled' or 'disabled'. Defaults to 'disabled'."
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/types/resend:resources:AutomationStep"
+          },
+          "description": "The steps in the automation workflow. Must contain 1-150 steps, including at least one trigger step."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the automation was last updated."
+        }
+      },
+      "required": [
+        "name",
+        "steps",
+        "connections",
+        "createdAt",
+        "updatedAt"
+      ],
+      "inputProperties": {
+        "connections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/types/resend:resources:AutomationConnection"
+          },
+          "description": "The connections (edges) between steps defining the workflow graph."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the automation."
+        },
+        "status": {
+          "type": "string",
+          "description": "The automation status: 'enabled' or 'disabled'. Defaults to 'disabled'."
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/types/resend:resources:AutomationStep"
+          },
+          "description": "The steps in the automation workflow. Must contain 1-150 steps, including at least one trigger step."
+        }
+      },
+      "requiredInputs": [
+        "name",
+        "steps",
+        "connections"
       ]
     },
     "resend:index:ContactProperty": {

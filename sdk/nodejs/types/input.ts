@@ -89,6 +89,42 @@ export namespace functions {
 
 export namespace resources {
     /**
+     * A connection (edge) between steps in a Resend automation workflow.
+     */
+    export interface AutomationConnectionArgs {
+        /**
+         * The key of the source step.
+         */
+        from: pulumi.Input<string>;
+        /**
+         * The key of the destination step.
+         */
+        to: pulumi.Input<string>;
+        /**
+         * The connection type: default, condition_met, condition_not_met, timeout, or event_received. Defaults to 'default'.
+         */
+        type?: pulumi.Input<string>;
+    }
+
+    /**
+     * A step in a Resend automation workflow.
+     */
+    export interface AutomationStepArgs {
+        /**
+         * Configuration object for the step. Structure depends on the step type.
+         */
+        config: pulumi.Input<{[key: string]: any}>;
+        /**
+         * Unique identifier for this step within the automation. Used to reference the step in connections.
+         */
+        key: pulumi.Input<string>;
+        /**
+         * The type of step: trigger, send_email, delay, wait_for_event, condition, contact_update, contact_delete, or add_to_segment.
+         */
+        type: pulumi.Input<string>;
+    }
+
+    /**
      * A Resend template variable definition.
      */
     export interface TemplateVariableArgs {

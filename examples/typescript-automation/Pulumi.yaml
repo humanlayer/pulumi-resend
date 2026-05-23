@@ -1,0 +1,3 @@
+name: resend-automation-example
+runtime: nodejs
+description: Create a Resend automation with the Pulumi Resend provider.
