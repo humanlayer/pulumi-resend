@@ -48,6 +48,9 @@ func Provider() p.Provider {
 			infer.Resource[*resources.Event, resources.EventArgs, resources.EventState](
 				resources.NewEvent(ClientFromContext),
 			),
+			infer.Resource[*resources.Segment, resources.SegmentArgs, resources.SegmentState](
+				resources.NewSegment(ClientFromContext),
+			),
 			infer.Resource[*resources.Template, resources.TemplateArgs, resources.TemplateState](
 				resources.NewTemplate(ClientFromContext),
 			),

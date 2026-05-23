@@ -29,6 +29,7 @@
         "functions/index.ts",
         "index.ts",
         "provider.ts",
+        "segment.ts",
         "sendEmail.ts",
         "template.ts",
         "topic.ts",

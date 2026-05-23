@@ -35,6 +35,11 @@ export type Provider = import("./provider").Provider;
 export const Provider: typeof import("./provider").Provider = null as any;
 utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
+export { SegmentArgs } from "./segment";
+export type Segment = import("./segment").Segment;
+export const Segment: typeof import("./segment").Segment = null as any;
+utilities.lazyLoad(exports, ["Segment"], () => require("./segment"));
+
 export { SendEmailArgs, SendEmailResult, SendEmailOutputArgs } from "./sendEmail";
 export const sendEmail: typeof import("./sendEmail").sendEmail = null as any;
 export const sendEmailOutput: typeof import("./sendEmail").sendEmailOutput = null as any;
@@ -81,6 +86,8 @@ const _module = {
                 return new DomainVerification(name, <any>undefined, { urn })
             case "resend:index:Event":
                 return new Event(name, <any>undefined, { urn })
+            case "resend:index:Segment":
+                return new Segment(name, <any>undefined, { urn })
             case "resend:index:Template":
                 return new Template(name, <any>undefined, { urn })
             case "resend:index:Topic":

@@ -432,6 +432,46 @@
         "name"
       ]
     },
+    "resend:index:Segment": {
+      "description": "A Resend segment for contact segmentation. Segments allow you to group contacts based on filter criteria for targeted broadcasts. Note: Segments are immutable after creation - any changes require replacement.",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the segment was created."
+        },
+        "filter": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "pulumi.json#/Any"
+          },
+          "description": "Optional filter criteria for the segment. This is an opaque object as the API doesn't fully document the schema. This field is immutable after creation."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the segment. This field is immutable after creation."
+        }
+      },
+      "required": [
+        "name",
+        "createdAt"
+      ],
+      "inputProperties": {
+        "filter": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "pulumi.json#/Any"
+          },
+          "description": "Optional filter criteria for the segment. This is an opaque object as the API doesn't fully document the schema. This field is immutable after creation."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the segment. This field is immutable after creation."
+        }
+      },
+      "requiredInputs": [
+        "name"
+      ]
+    },
     "resend:index:Template": {
       "description": "A Resend email template with HTML, optional defaults, and template variables.",
       "properties": {
