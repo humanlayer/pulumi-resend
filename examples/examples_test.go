@@ -106,6 +106,80 @@ func TestTypescriptSendEmailExampleExists(t *testing.T) {
 	}
 }
 
+// v0.2.0 example existence tests
+
+func TestYamlV020ExampleExists(t *testing.T) {
+	// Verify the YAML v0.2.0 example file exists
+	examplePath := filepath.Join("yaml-v0.2.0", "Pulumi.yaml")
+	if _, err := os.Stat(examplePath); os.IsNotExist(err) {
+		t.Fatalf("YAML v0.2.0 example not found at %s", examplePath)
+	}
+}
+
+func TestTypescriptTopicExampleExists(t *testing.T) {
+	// Verify the TypeScript topic example exists
+	examplePath := filepath.Join("typescript-topic", "index.ts")
+	if _, err := os.Stat(examplePath); os.IsNotExist(err) {
+		t.Fatalf("TypeScript topic example not found at %s", examplePath)
+	}
+}
+
+func TestTypescriptEventExampleExists(t *testing.T) {
+	// Verify the TypeScript event example exists
+	examplePath := filepath.Join("typescript-event", "index.ts")
+	if _, err := os.Stat(examplePath); os.IsNotExist(err) {
+		t.Fatalf("TypeScript event example not found at %s", examplePath)
+	}
+}
+
+func TestTypescriptContactPropertyExampleExists(t *testing.T) {
+	// Verify the TypeScript contact property example exists
+	examplePath := filepath.Join("typescript-contact-property", "index.ts")
+	if _, err := os.Stat(examplePath); os.IsNotExist(err) {
+		t.Fatalf("TypeScript contact property example not found at %s", examplePath)
+	}
+}
+
+func TestTypescriptSegmentExampleExists(t *testing.T) {
+	// Verify the TypeScript segment example exists
+	examplePath := filepath.Join("typescript-segment", "index.ts")
+	if _, err := os.Stat(examplePath); os.IsNotExist(err) {
+		t.Fatalf("TypeScript segment example not found at %s", examplePath)
+	}
+}
+
+func TestTypescriptAutomationExampleExists(t *testing.T) {
+	// Verify the TypeScript automation example exists
+	examplePath := filepath.Join("typescript-automation", "index.ts")
+	if _, err := os.Stat(examplePath); os.IsNotExist(err) {
+		t.Fatalf("TypeScript automation example not found at %s", examplePath)
+	}
+}
+
+func TestTypescriptSendBatchEmailExampleExists(t *testing.T) {
+	// Verify the TypeScript send batch email example exists
+	examplePath := filepath.Join("typescript-send-batch-email", "index.ts")
+	if _, err := os.Stat(examplePath); os.IsNotExist(err) {
+		t.Fatalf("TypeScript send batch email example not found at %s", examplePath)
+	}
+}
+
+func TestTypescriptSendEventExampleExists(t *testing.T) {
+	// Verify the TypeScript send event example exists
+	examplePath := filepath.Join("typescript-send-event", "index.ts")
+	if _, err := os.Stat(examplePath); os.IsNotExist(err) {
+		t.Fatalf("TypeScript send event example not found at %s", examplePath)
+	}
+}
+
+func TestTypescriptSendBroadcastExampleExists(t *testing.T) {
+	// Verify the TypeScript send broadcast example exists
+	examplePath := filepath.Join("typescript-send-broadcast", "index.ts")
+	if _, err := os.Stat(examplePath); os.IsNotExist(err) {
+		t.Fatalf("TypeScript send broadcast example not found at %s", examplePath)
+	}
+}
+
 // TestProviderConfigure validates that the provider can be configured
 // with the RESEND_API_KEY environment variable.
 func TestProviderConfigure(t *testing.T) {

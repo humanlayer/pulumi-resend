@@ -1,0 +1,36 @@
+name: resend-yaml-v0.2.0-example
+runtime: yaml
+description: A YAML example demonstrating Resend v0.2.0 resources (Topic, Event, ContactProperty)
+
+resources:
+  # Create a Topic for managing subscription preferences
+  newsletter:
+    type: resend:index:Topic
+    properties:
+      name: Newsletter
+      defaultSubscription: opt_in
+      description: Weekly product updates and announcements
+      visibility: public
+
+  # Create an Event type for automation triggers
+  userSignup:
+    type: resend:index:Event
+    properties:
+      name: user.signup
+      schema:
+        plan: string
+        trial_days: number
+
+  # Create a ContactProperty for custom contact fields
+  companyName:
+    type: resend:index:ContactProperty
+    properties:
+      key: company_name
+      type: string
+      fallbackValue: Unknown
+
+outputs:
+  # Export resource IDs
+  topicId: ${newsletter.id}
+  eventId: ${userSignup.id}
+  propertyId: ${companyName.id}
