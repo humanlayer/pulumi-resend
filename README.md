@@ -313,29 +313,361 @@ const result = await resend.sendBroadcast({
 - Creates and sends the broadcast atomically
 - Supports scheduled sending via `scheduledAt` (ISO 8601 timestamp)
 
+## Examples
+
+### Complete Email Platform Setup
+
+Set up a full email platform with domain verification, templates, topics, and automation:
+
+```typescript
+import * as resend from "@humanlayer/pulumi-resend";
+
+// 1. Domain with tracking enabled
+const domain = new resend.Domain("mail", {
+    name: "mail.example.com",
+    region: "us-east-1",
+    openTracking: true,
+    clickTracking: true,
+});
+
+// 2. Verify the domain (polls until DNS records are confirmed)
+const verification = new resend.DomainVerification("verify", {
+    domainId: domain.id,
+});
+
+// 3. Scoped API key for sending only
+const sendingKey = new resend.ApiKey("sender", {
+    name: "production-sender",
+    permission: "sending_access",
+    domainId: domain.id,
+});
+
+// 4. Subscription topics
+const newsletter = new resend.Topic("newsletter", {
+    name: "Newsletter",
+    defaultSubscription: "opt_in",
+    description: "Weekly product updates and tips",
+    visibility: "public",
+});
+
+const marketing = new resend.Topic("marketing", {
+    name: "Marketing",
+    defaultSubscription: "opt_out",
+    description: "Promotional offers and announcements",
+    visibility: "public",
+});
+
+// 5. Contact properties for personalization
+const companyName = new resend.ContactProperty("company", {
+    key: "company_name",
+    type: "string",
+    fallbackValue: "there",
+});
+
+const plan = new resend.ContactProperty("plan", {
+    key: "plan",
+    type: "string",
+    fallbackValue: "free",
+});
+
+// 6. Webhook for delivery tracking
+const webhook = new resend.Webhook("delivery-events", {
+    endpoint: "https://api.example.com/webhooks/resend",
+    events: [
+        "email.sent",
+        "email.delivered",
+        "email.bounced",
+        "email.complained",
+        "email.opened",
+        "email.clicked",
+    ],
+});
+
+export const domainId = domain.id;
+export const dnsRecords = domain.records;
+export const apiKeyToken = sendingKey.token;
+```
+
+### Welcome Email Automation
+
+Build a multi-step onboarding sequence triggered when users sign up:
+
+```typescript
+import * as resend from "@humanlayer/pulumi-resend";
+
+// Define the trigger event
+const signupEvent = new resend.Event("signup", {
+    name: "user.signup",
+    schema: {
+        first_name: "string",
+        plan: "string",
+        trial_days: "number",
+    },
+});
+
+// Create email templates
+const welcomeTemplate = new resend.Template("welcome", {
+    name: "Welcome Email",
+    subject: "Welcome to Example, {{first_name}}!",
+    from: "hello@mail.example.com",
+    html: `
+        <h1>Welcome, {{first_name}}!</h1>
+        <p>Thanks for joining us on the {{plan}} plan.</p>
+        <p>You have {{trial_days}} days to explore everything.</p>
+    `,
+});
+
+const tipsTemplate = new resend.Template("tips", {
+    name: "Getting Started Tips",
+    subject: "3 tips to get the most out of Example",
+    from: "hello@mail.example.com",
+    html: "<h1>Pro tips for you</h1><p>Here's how to get started...</p>",
+});
+
+const checkInTemplate = new resend.Template("checkin", {
+    name: "Check-in Email",
+    subject: "How's it going, {{first_name}}?",
+    from: "hello@mail.example.com",
+    html: "<h1>Hey {{first_name}}</h1><p>Just checking in...</p>",
+});
+
+// Build the automation workflow
+const onboarding = new resend.Automation("onboarding", {
+    name: "New User Onboarding",
+    status: "enabled",
+    steps: [
+        {
+            key: "trigger",
+            type: "trigger",
+            config: { event_name: "user.signup" },
+        },
+        {
+            key: "welcome",
+            type: "send_email",
+            config: {
+                template: { id: welcomeTemplate.id },
+            },
+        },
+        {
+            key: "wait_2_days",
+            type: "delay",
+            config: { duration: "2 days" },
+        },
+        {
+            key: "tips",
+            type: "send_email",
+            config: {
+                template: { id: tipsTemplate.id },
+            },
+        },
+        {
+            key: "wait_5_days",
+            type: "delay",
+            config: { duration: "5 days" },
+        },
+        {
+            key: "checkin",
+            type: "send_email",
+            config: {
+                template: { id: checkInTemplate.id },
+            },
+        },
+    ],
+    connections: [
+        { from: "trigger", to: "welcome" },
+        { from: "welcome", to: "wait_2_days" },
+        { from: "wait_2_days", to: "tips" },
+        { from: "tips", to: "wait_5_days" },
+        { from: "wait_5_days", to: "checkin" },
+    ],
+});
+
+// Trigger the automation for a new user (invoke)
+const triggerSignup = resend.sendEvent({
+    event: "user.signup",
+    email: "newuser@example.com",
+    payload: {
+        first_name: "Alice",
+        plan: "pro",
+        trial_days: 14,
+    },
+});
+```
+
+### Domain Setup with AWS Route53
+
+Use domain DNS records to configure Route53 automatically:
+
+```typescript
+import * as resend from "@humanlayer/pulumi-resend";
+import * as aws from "@pulumi/aws";
+
+const domain = new resend.Domain("mail", {
+    name: "mail.example.com",
+    region: "us-east-1",
+});
+
+const zone = aws.route53.getZone({ name: "example.com" });
+
+// Create DNS records from the domain's output
+domain.records.apply(records => {
+    records.forEach((rec, i) => {
+        new aws.route53.Record(`dns-${i}`, {
+            zoneId: zone.then(z => z.zoneId),
+            name: rec.name,
+            type: rec.type,
+            records: [rec.value],
+            ttl: parseInt(rec.ttl) || 300,
+        });
+    });
+});
+
+// Verify after DNS records are created
+const verification = new resend.DomainVerification("verify", {
+    domainId: domain.id,
+});
+```
+
+### Conditional Automation with Branching
+
+Create an automation with conditional logic based on user properties:
+
+```typescript
+import * as resend from "@humanlayer/pulumi-resend";
+
+const automation = new resend.Automation("trial-followup", {
+    name: "Trial Expiry Follow-up",
+    status: "enabled",
+    steps: [
+        {
+            key: "trigger",
+            type: "trigger",
+            config: { event_name: "trial.expiring" },
+        },
+        {
+            key: "check_plan",
+            type: "condition",
+            config: {
+                type: "rule",
+                field: "plan",
+                operator: "equals",
+                value: "enterprise",
+            },
+        },
+        {
+            key: "enterprise_email",
+            type: "send_email",
+            config: {
+                template: { id: "tmpl_enterprise_upsell" },
+                subject: "Your enterprise trial is ending soon",
+            },
+        },
+        {
+            key: "standard_email",
+            type: "send_email",
+            config: {
+                template: { id: "tmpl_standard_upsell" },
+                subject: "Upgrade before your trial ends",
+            },
+        },
+    ],
+    connections: [
+        { from: "trigger", to: "check_plan" },
+        { from: "check_plan", to: "enterprise_email", type: "condition_met" },
+        { from: "check_plan", to: "standard_email", type: "condition_not_met" },
+    ],
+});
+```
+
+### Importing Existing Resources
+
+Import existing Resend resources into Pulumi state:
+
+```bash
+# Import an existing domain
+pulumi import resend:index:Domain myDomain d_abc123
+
+# Import an existing API key
+pulumi import resend:index:ApiKey myKey ak_xyz789
+
+# Import an existing webhook
+pulumi import resend:index:Webhook myWebhook wh_def456
+
+# Import an existing template
+pulumi import resend:index:Template myTemplate tmpl_ghi789
+```
+
+### YAML Example
+
+```yaml
+name: resend-email-infra
+runtime: yaml
+
+resources:
+  domain:
+    type: resend:index:Domain
+    properties:
+      name: mail.example.com
+      region: us-east-1
+      openTracking: true
+
+  apiKey:
+    type: resend:index:ApiKey
+    properties:
+      name: my-sending-key
+      permission: sending_access
+
+  newsletter:
+    type: resend:index:Topic
+    properties:
+      name: Newsletter
+      defaultSubscription: opt_in
+      visibility: public
+
+  welcomeTemplate:
+    type: resend:index:Template
+    properties:
+      name: Welcome
+      subject: Welcome!
+      html: "<h1>Welcome!</h1>"
+
+  webhook:
+    type: resend:index:Webhook
+    properties:
+      endpoint: https://api.example.com/webhooks/resend
+      events:
+        - email.delivered
+        - email.bounced
+
+outputs:
+  domainId: ${domain.id}
+  dnsRecords: ${domain.records}
+  apiKeyToken: ${apiKey.token}
+```
+
 ## Resources
 
-| Resource | Description |
-|----------|-------------|
-| `Domain` | Email sending domain with DNS records |
-| `DomainVerification` | Triggers DNS verification for a domain |
-| `ApiKey` | API key for authentication |
-| `Template` | Reusable email template |
-| `Webhook` | Webhook endpoint for email events |
-| `Topic` | Subscription topic for contact email preferences |
-| `Event` | Custom event type for automation triggers |
-| `ContactProperty` | Custom field definition on contacts |
-| `Segment` | Contact segment for targeted broadcasts |
-| `Automation` | Multi-step email automation workflow |
+| Resource | Description | Update | Notes |
+|----------|-------------|--------|-------|
+| `Domain` | Email sending domain with DNS records | In-place | `name`/`region` immutable |
+| `DomainVerification` | Triggers DNS verification for a domain | No-op | Idempotent, delete is no-op |
+| `ApiKey` | API key for authentication | Replace | All fields immutable, token is secret |
+| `Template` | Reusable email template | In-place | Full CRUD |
+| `Webhook` | Webhook endpoint for email events | In-place | Full CRUD |
+| `Topic` | Subscription topic for contact preferences | In-place | `defaultSubscription` immutable |
+| `Event` | Custom event type for automation triggers | In-place | `name` immutable, `schema` updatable |
+| `ContactProperty` | Custom field definition on contacts | In-place | `key`/`type` immutable |
+| `Segment` | Contact segment for targeted broadcasts | Replace | No update API |
+| `Automation` | Multi-step email automation workflow | In-place | Steps/connections replaced together |
 
 ## Functions
 
-| Function | Description |
-|----------|-------------|
-| `sendEmail` | Send a single email (stateless invoke) |
-| `sendBatchEmail` | Send up to 100 emails in one call |
-| `sendEvent` | Trigger a custom event for automations |
-| `sendBroadcast` | Create and send a broadcast to a segment |
+| Function | Description | Notes |
+|----------|-------------|-------|
+| `sendEmail` | Send a single email | Runs on every `pulumi up` |
+| `sendBatchEmail` | Send up to 100 emails in one call | Max 50 recipients per email |
+| `sendEvent` | Trigger a custom event for automations | Requires `contactId` or `email` |
+| `sendBroadcast` | Create and send a broadcast to a segment | Atomic create+send |
 
 ## Development
 
@@ -351,6 +683,9 @@ make codegen
 
 # Run tests
 go test ./...
+
+# Build and test everything
+make provider && make schema && make codegen && cd sdk/nodejs && npm install && npm run build
 ```
 
 ## License
